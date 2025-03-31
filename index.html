@@ -96,6 +96,7 @@
   <div id="mode-select">
     <label><input type="radio" name="mode" value="consonants" checked> 자음 연습</label>
     <label><input type="radio" name="mode" value="vowels"> 모음 연습</label>
+    <label><input type="radio" name="mode" value="numbers"> 숫자 연습</label>
   </div>
 
   <div id="prompt">ㄱ</div>
@@ -115,6 +116,7 @@
   <script>
     const consonants = ['ㄱ','ㄴ','ㄷ','ㄹ','ㅁ','ㅂ','ㅅ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
     const vowels = ['ㅏ','ㅑ','ㅓ','ㅕ','ㅗ','ㅛ','ㅜ','ㅠ','ㅡ','ㅣ'];
+    const numbers = ['0','1','2','3','4','5','6','7','8','9'];
 
     let currentSet = consonants;
     let correctStreak = 0;
@@ -150,8 +152,12 @@
 
     modeSelect.forEach(radio => {
       radio.addEventListener('change', () => {
-        currentSet = radio.value === 'consonants' ? consonants : vowels;
-        nextLetter();
+        if (radio.checked) {
+          if (radio.value === 'consonants') currentSet = consonants;
+          else if (radio.value === 'vowels') currentSet = vowels;
+          else if (radio.value === 'numbers') currentSet = numbers;
+          nextLetter();
+        }
       });
     });
 
@@ -177,12 +183,12 @@
         correctStreak++;
         result.textContent = '잘했어요!';
         updateStars();
-        body.style.backgroundColor = '#e0ffe0'; // 초록빛 배경
+        body.style.backgroundColor = '#e0ffe0';
         setTimeout(nextLetter, 800);
       } else {
         correctStreak = 0;
         result.textContent = '다시 눌러보세요';
-        body.style.backgroundColor = '#ffe0e0'; // 붉은빛 배경
+        body.style.backgroundColor = '#ffe0e0';
         setTimeout(() => {
           typed.textContent = '';
           result.textContent = '';
